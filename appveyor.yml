@@ -19,4 +19,4 @@ test_script:
   - cd ..
   - set PATH=c:\projects\node_modules\.bin;c:\projects\cordova-cli\bin;%PATH%
   - set PLUGIN_PATH=c:/projects/cordova-plugin-alljoyn
-  - cordova-paramedic --platform windows --plugin %PLUGIN_PATH% --architecture=x86 --buildOnly=true
+  - cordova-paramedic --platform windows --plugin %PLUGIN_PATH% --architecture=x86
