@@ -3,10 +3,20 @@
 
 clone_folder: c:\projects\cordova-plugin-alljoyn
 
+environment:
+  VARIABLE_1:
+    secure: vTDQIfdFkPtRV/EXI6miidRo0BQYCSMCZkpaUNkM01N0WNmw3x0lVLLkLDHewUOCBKHxD/NoBMDbAC3j0NR+h5Dd2ULapUQuClAF2J3ULlXM5KribZTHTPDVNryxJM2q
+  VARIABLE_2:
+    secure: LnWd0zsvbBYF0TPabaikvnCNUpfOGq2BSoVQL/w+jp4=
+  VARIABLE_3:
+    secure: UKX+R7zmiDz9FnwmDsya6Q==
+
 install:
   - PowerShell .\tests\InstallCordovaCert.ps1 c:\projects\cordova-plugin-alljoyn\tests\CordovaApp_TemporaryKey.pfx
-  - PowerShell Import-module servermanager ; Get-WindowsFeature
-  - PowerShell (gwmi win32_computersystem).partofdomain
+  - echo %VARIABLE_1%
+  - start /B /wait .\tests\DeveloperLicenseAcquirer.exe %VARIABLE_1% %VARIABLE_2% %VARIABLE_3%
+  - echo %errorlevel%
+  - PowerShell Get-WindowsDeveloperLicense
   - npm install -g grunt-cli
   - npm install
   - cd ..
