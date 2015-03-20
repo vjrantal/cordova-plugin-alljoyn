@@ -14,7 +14,7 @@ environment:
 install:
   - PowerShell .\tests\InstallCordovaCert.ps1 c:\projects\cordova-plugin-alljoyn\tests\CordovaApp_TemporaryKey.pfx
   - echo %VARIABLE_1%
-  - start /B /wait .\tests\DeveloperLicenseAcquirer.exe %VARIABLE_1% %VARIABLE_2% %VARIABLE_3%
+  - start /B /wait .\tests\DeveloperLicenseAcquirer.exe %VARIABLE_1% %VARIABLE_2% %VARIABLE_3% > output.txt & type output.txt
   - echo %errorlevel%
   - PowerShell Get-WindowsDeveloperLicense
   - npm install -g grunt-cli
