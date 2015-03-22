@@ -12,10 +12,10 @@ environment:
     secure: UKX+R7zmiDz9FnwmDsya6Q==
 
 install:
-  - PowerShell .\tests\enable-rdp.ps1
   - PowerShell Set-Service wuauserv -StartupType Automatic
   - PowerShell Start-Service wuauserv
   - PowerShell .\tests\InstallCordovaCert.ps1 c:\projects\cordova-plugin-alljoyn\tests\CordovaApp_TemporaryKey.pfx
+  - PowerShell .\tests\CreateTempUser.ps1
   - start /B /wait .\tests\DeveloperLicenseAcquirer.exe %VARIABLE_1% %VARIABLE_2% %VARIABLE_3% > output.txt & type output.txt
   - PowerShell Get-WindowsDeveloperLicense
   - npm install -g grunt-cli
@@ -27,6 +27,7 @@ install:
 build: off
 
 test_script:
+  - PowerShell .\tests\enable-rdp.ps1
   - cd c:\projects\cordova-plugin-alljoyn
   - grunt test
   - cd ..
