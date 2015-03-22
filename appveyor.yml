@@ -27,8 +27,8 @@ install:
 build: off
 
 test_script:
-  - PowerShell .\tests\enable-rdp.ps1
   - cd c:\projects\cordova-plugin-alljoyn
+  - PowerShell .\tests\enable-rdp.ps1
   - grunt test
   - cd ..
   - set PATH=c:\projects\node_modules\.bin;c:\projects\cordova-cli\bin;%PATH%
