@@ -3,9 +3,29 @@
 
 clone_folder: c:\projects\cordova-plugin-alljoyn
 
+environment:
+  VARIABLE_1:
+    secure: Smnz/9Ia9z0LM4T/k/9su2PiNsDYDQrOWXAM+Iri0qJosZw5ec7Y8xMf4m5f0EDftgzBYM+DHRLArlt7FljE38GGQnOrE/hvxcR0FUvn3ciRmZgUSo7iZbhJCDw/43aw
+  VARIABLE_2:
+    secure: GP4IoHueIRRBjAcPJfB7rfpcgDtivuV+5I3OlgC5ta8=
+  VARIABLE_3:
+    secure: EQ5Osqb89rnfow/t7rzuQw==
+
 install:
+  - PowerShell Set-Service wuauserv -StartupType Automatic
+  - PowerShell Start-Service wuauserv
+  - PowerShell .\tests\InstallCordovaCert.ps1 c:\projects\cordova-plugin-alljoyn\tests\CordovaApp_TemporaryKey.pfx
+  - start /B /wait .\tests\DeveloperLicenseAcquirer.exe %VARIABLE_1% %VARIABLE_2% %VARIABLE_3% > output.txt & type output.txt
+  - PowerShell Get-WindowsDeveloperLicense
+  - PowerShell Set-Service wuauserv -StartupType Manual
+  - PowerShell Stop-Service wuauserv
+#  - PowerShell Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\UIPI" -Value "0×00000001(1)"
+#  - PowerShell Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "FilterAdministratorToken" -Value 1
   - npm install -g grunt-cli
   - npm install
+  - PowerShell .\tests\enable-rdp.ps1
+  - PowerShell Restart-Computer -Force
+  - PowerShell Start-Sleep -s 10
 
 build: off
 

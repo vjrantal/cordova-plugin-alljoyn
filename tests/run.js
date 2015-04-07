@@ -56,7 +56,7 @@ var parameticArguments = [
     '--removeTempProject=true'
 ];
 
-if (platform === 'win32' || platform === 'linux') {
+if (platform === 'linux') {
     parameticArguments.push('--buildOnly=true');
 }
 
