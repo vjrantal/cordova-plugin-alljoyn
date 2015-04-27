@@ -4,11 +4,20 @@ var cordova = require('cordova');
 var registeredObjects = [];
 var connectedBus = null;
 
-var getSignature = function (indexList, objectsList) {
-    var objects = objectsList[indexList[0]];
-    var object = objects[indexList[1]];
-    var interfaces = object.interfaces;
-    var signature = interfaces[indexList[2]][indexList[3] + 1];
+var getSignature = function (indexList) {
+    var signature = null;
+    try {
+        var objects = registeredObjects[indexList[0]];
+        var object = objects[indexList[1]];
+        var interfaces = object.interfaces;
+        signature = interfaces[indexList[2]][indexList[3] + 1];
+    } catch (e) {
+        console.log('The given index list was:');
+        console.log(indexList);
+        console.log('Registered objects were:');
+        console.log(registeredObjects.slice(1));
+        throw 'Unable to find the given interface from the registered objects!';
+    }
     return signature;
 };
 
@@ -212,12 +221,12 @@ var AllJoyn = {
                             sessionHost: sessionHost,
                             message: msg,
                             callMethod: function (callMethodSuccess, callMethodError, destination, path, indexList, inParameterType, parameters, outParameterType) {
-                                var signature = getSignature(indexList, registeredObjects);
+                                var signature = getSignature(indexList);
                                 var wrappedSuccessCallback = wrapMsgInfoReceivingCallback(callMethodSuccess);
                                 exec(wrappedSuccessCallback, callMethodError, 'AllJoyn', 'invokeMember', [sessionId, destination, signature, path, indexList, inParameterType, parameters, outParameterType]);
                             },
                             sendSignal: function (sendSignalSuccess, sendSignalError, destination, path, indexList, inParameterType, parameters) {
-                                var signature = getSignature(indexList, registeredObjects);
+                                var signature = getSignature(indexList);
                                 exec(sendSignalSuccess, sendSignalError, 'AllJoyn', 'invokeMember', [sessionId, destination, signature, path, indexList, inParameterType, parameters]);
                             },
                             leave: function (leaveSuccess, leaveError) {
@@ -230,7 +239,7 @@ var AllJoyn = {
                     exec(wrappedSuccessCallback, error, 'AllJoyn', 'joinSession', [service]);
                 },
                 sendSignal: function (sendSignalSuccess, sendSignalError, indexList, inParameterType, parameters) {
-                    var signature = getSignature(indexList, registeredObjects);
+                    var signature = getSignature(indexList);
                     exec(sendSignalSuccess, sendSignalError, 'AllJoyn', 'invokeMember', [null, null, signature, null, indexList, inParameterType, parameters]);
                 }
             };

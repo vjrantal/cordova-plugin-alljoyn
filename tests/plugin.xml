@@ -6,7 +6,9 @@
 
     <js-module src="tests.js" name="tests" />
 
-    <js-module src="registration.js" name="registration" />
-    <js-module src="connection.js" name="connection" />
-    <js-module src="methods.js" name="methods" />
+    <js-module src="auto/registration.js" name="auto-registration" />
+    <js-module src="auto/connection.js" name="auto-connection" />
+    <js-module src="auto/methods.js" name="auto-methods" />
+
+    <js-module src="manual/connection-errors.js" name="manual-connection-errors" />
 </plugin>
